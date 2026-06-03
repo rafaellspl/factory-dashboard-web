@@ -1,0 +1,41 @@
+@if (run(); as workflow) {
+  <section class="workflow-status" data-testid="workflow-status">
+    <header>
+      <h2>{{ workflow.issueKey }}</h2>
+      <span class="badge" [attr.data-node]="workflow.currentNode">
+        {{ workflow.currentNode }}
+      </span>
+    </header>
+
+    <dl>
+      <div>
+        <dt>Jira</dt>
+        <dd>{{ workflow.jiraStatus }}</dd>
+      </div>
+      <div>
+        <dt>Branch</dt>
+        <dd>{{ workflow.branchName || '—' }}</dd>
+      </div>
+      <div>
+        <dt>Repos</dt>
+        <dd>{{ repoTargetsLabel(workflow.repoTargets) }}</dd>
+      </div>
+      <div>
+        <dt>Review / QA</dt>
+        <dd>{{ workflow.reviewResult }} / {{ workflow.qaResult }}</dd>
+      </div>
+      <div>
+        <dt>Updated</dt>
+        <dd>{{ workflow.updatedAt | date: 'medium' }}</dd>
+      </div>
+    </dl>
+
+    @if (workflow.messages.length > 0) {
+      <ul class="messages" data-testid="workflow-messages">
+        @for (message of workflow.messages; track message) {
+          <li>{{ message }}</li>
+        }
+      </ul>
+    }
+  </section>
+}
