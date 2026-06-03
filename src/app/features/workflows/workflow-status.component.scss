@@ -1,0 +1,47 @@
+.workflow-status {
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 1rem;
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .badge {
+    background: #0969da;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.5rem 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    margin: 0;
+  }
+
+  dt {
+    color: #57606a;
+    font-size: 0.75rem;
+    margin: 0;
+  }
+
+  dd {
+    margin: 0.15rem 0 0;
+  }
+
+  .messages {
+    margin: 1rem 0 0;
+    padding-left: 1.25rem;
+  }
+}

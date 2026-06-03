@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://factory-ai.dev/contracts/workflow-api/v1",
+  "title": "Workflow API Contract (FA-5)",
+  "description": "Shared contract between factory-dashboard-api and factory-dashboard-web. ASP.NET Core serializes enums as camelCase strings; currentNode uses PascalCase.",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/workflows",
+      "request": { "$ref": "#/$defs/CreateWorkflowRunRequest" },
+      "responses": {
+        "201": { "$ref": "#/$defs/WorkflowRun" },
+        "400": { "type": "array", "items": { "type": "string" } },
+        "409": { "$ref": "#/$defs/ErrorBody" }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/workflows/{issueKey}",
+      "responses": {
+        "200": { "$ref": "#/$defs/WorkflowRun" },
+        "404": { "description": "empty body" }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/workflows/{issueKey}/dry-run",
+      "responses": {
+        "200": { "$ref": "#/$defs/WorkflowRun" },
+        "404": { "$ref": "#/$defs/ErrorBody" },
+        "409": { "$ref": "#/$defs/ErrorBody" }
+      }
+    }
+  ],
+  "$defs": {
+    "CreateWorkflowRunRequest": {
+      "type": "object",
+      "required": ["issueKey", "dryRun"],
+      "properties": {
+        "issueKey": { "type": "string", "pattern": "^[A-Z]+-\\d+$" },
+        "labels": { "type": "array", "items": { "type": "string" } },
+        "dryRun": { "type": "boolean" }
+      }
+    },
+    "WorkflowRun": {
+      "type": "object",
+      "required": [
+        "id",
+        "issueKey",
+        "issueType",
+        "labels",
+        "jiraStatus",
+        "repoTargets",
+        "branchName",
+        "prUrls",
+        "reviewResult",
+        "qaResult",
+        "messages",
+        "currentNode",
+        "dryRun",
+        "isCompleted",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "issueKey": { "type": "string" },
+        "issueType": { "type": "string" },
+        "labels": { "type": "array", "items": { "type": "string" } },
+        "jiraStatus": { "type": "string" },
+        "repoTargets": {
+          "type": "array",
+          "items": { "enum": ["orchestrator", "web", "api"] }
+        },
+        "branchName": { "type": "string" },
+        "prUrls": { "type": "array", "items": { "type": "string" } },
+        "reviewResult": { "enum": ["pending", "approved", "rejected"] },
+        "qaResult": { "enum": ["pending", "passed", "failed"] },
+        "messages": { "type": "array", "items": { "type": "string" } },
+        "currentNode": {
+          "enum": [
+            "Po",
+            "DevFrontend",
+            "DevBackend",
+            "DevCross",
+            "Reviewer",
+            "Qa",
+            "Completed"
+          ]
+        },
+        "dryRun": { "type": "boolean" },
+        "isCompleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ErrorBody": {
+      "type": "object",
+      "required": ["error"],
+      "properties": {
+        "error": { "type": "string" }
+      }
+    }
+  }
+}

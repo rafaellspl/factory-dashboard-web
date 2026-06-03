@@ -1,0 +1,45 @@
+<section class="workflow-runner" data-testid="workflow-runner">
+  <h1>Workflow Graph (FA-5)</h1>
+  <p class="hint">
+    Cross-cutting dashboard aligned with
+    <code>POST/GET /api/workflows</code> contract.
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="createAndDryRun()">
+    <label>
+      Issue key
+      <input formControlName="issueKey" autocomplete="off" />
+    </label>
+
+    <label>
+      Labels (comma-separated)
+      <input formControlName="labels" autocomplete="off" />
+    </label>
+
+    <label class="checkbox">
+      <input type="checkbox" formControlName="dryRun" />
+      Dry run
+    </label>
+
+    <div class="actions">
+      <button type="button" (click)="load()" [disabled]="loading() || form.invalid">
+        Load
+      </button>
+      <button type="submit" [disabled]="loading() || form.invalid">
+        Create &amp; dry-run
+      </button>
+    </div>
+  </form>
+
+  @if (error(); as message) {
+    <p class="error" role="alert" data-testid="workflow-error">{{ message }}</p>
+  }
+
+  @if (loading()) {
+    <p data-testid="workflow-loading">Loading…</p>
+  }
+
+  @if (run(); as workflow) {
+    <app-workflow-status [run]="workflow" />
+  }
+</section>
