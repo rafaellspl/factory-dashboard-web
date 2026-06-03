@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://factory-ai.dev/contracts/workflow-api/v1",
   "title": "Workflow API Contract (FA-5)",
-  "description": "Shared contract between factory-dashboard-api and factory-dashboard-web. ASP.NET Core serializes enums as camelCase strings; currentNode uses PascalCase.",
+  "description": "Shared contract between factory-dashboard-api and factory-dashboard-web. ASP.NET Core serializes enums as camelCase strings; currentNode uses PascalCase. Keep in sync with api/docs/contracts/workflow-api.contract.json.",
   "endpoints": [
     {
       "method": "POST",
